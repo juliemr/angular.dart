@@ -445,7 +445,7 @@ main() {
     });
 
     xdescribe('reserved words', () {
-      iit('should support reserved words in member get access', () {
+      it('should support reserved words in member get access', () {
         for (String reserved in RESERVED_WORDS) {
           expect(parser("o.$reserved").eval({ 'o': new Object() })).toEqual(null);
           expect(parser("o.$reserved").eval({ 'o': { reserved: reserved }})).toEqual(reserved);
@@ -1145,9 +1145,9 @@ main() {
         }).toThrow('No Formatter: hello found!');
 
         var module = new Module()
+            ..bind(FormatterMap)
             ..bind(HelloFormatter);
-        var childInjector = injector.createChild([module],
-            forceNewInstances: [FormatterMap]);
+        var childInjector = injector.createChild([module]);
         var newFormatters = childInjector.get(FormatterMap);
 
         expect(expression.eval({}, newFormatters)).toEqual('Hello, World!');
